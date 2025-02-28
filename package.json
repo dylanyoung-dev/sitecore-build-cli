@@ -1,0 +1,16 @@
+{
+  "name": "sitecore-cli-ai",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "bin": {
+    "sitecore-cli-ai": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --dts",
+    "start": "node dist/index.js"
+  },
+  "devDependencies": {
+    "tsup": "latest",
+    "typescript": "latest"
+  }
+}
