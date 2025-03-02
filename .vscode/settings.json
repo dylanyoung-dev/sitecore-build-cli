@@ -1,0 +1,16 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true
+  },
+  "prettier.requireConfig": true,
+  "github.copilot.advanced": {
+    "instructionsFile": "GITHUB_COPILOT_INSTRUCTIONS.md"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  }
+}
