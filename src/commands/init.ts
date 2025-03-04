@@ -14,9 +14,9 @@ export async function init() {
   const rootDir = process.cwd();
   const files = fs.readdirSync(rootDir);
 
-  const allowedFiles = ['.gitignore', 'README.md', 'sitecore-ai.config.json'];
+  const allowedFiles = ['sitecore-build.config.json', '.sitecore-build'];
 
-  const configFilePath = path.join(rootDir, 'sitecore-ai.config.json');
+  const configFilePath = path.join(rootDir, 'sitecore-build.config.json');
   const configContent = `
 # Sitecore CLI AI Configuration
 SITECORE_XM_CLOUD_GRAPHQL_API_KEY=
@@ -27,10 +27,10 @@ JIRA_DOMAIN="xxxxx.atlassian.net"
 `;
 
   if (fs.existsSync(configFilePath)) {
-    console.log('.sitecore-cli-config file already exists.');
+    console.log('sitecore-build.config.json file already exists.');
   } else {
     fs.writeFileSync(configFilePath, configContent.trim());
-    console.log('.sitecore-cli-config file created successfully.');
+    console.log('sitecore-build. file created successfully.');
   }
 
   if (
@@ -64,7 +64,7 @@ JIRA_DOMAIN="xxxxx.atlassian.net"
   }
 
   // Check for additional actions in .sitecore-ai-cli folder
-  const actionsDir = path.join(rootDir, '.sitecore-ai-cli');
+  const actionsDir = path.join(rootDir, '.sitecore-build');
   const commandsConfigPath = path.join(actionsDir, 'commands.json');
 
   if (fs.existsSync(commandsConfigPath)) {
