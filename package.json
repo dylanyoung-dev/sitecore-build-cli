@@ -7,10 +7,16 @@
   },
   "scripts": {
     "build": "tsup src/index.ts --dts",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "dev": "tsup src/index.ts --watch --onSuccess \"node start-local.js\"",
+    "release": "semantic-release"
   },
   "devDependencies": {
     "tsup": "latest",
-    "typescript": "latest"
+    "typescript": "latest",
+    "semantic-release": "latest",
+    "@semantic-release/changelog": "latest",
+    "@semantic-release/git": "latest",
+    "@semantic-release/npm": "latest"
   }
 }
