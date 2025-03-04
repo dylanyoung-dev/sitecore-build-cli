@@ -5,6 +5,7 @@ import simpleGit from 'simple-git';
 import ora from 'ora'; // Add ora for better UI
 import { promisify } from 'util';
 import { ncp } from 'ncp';
+import { executeAdditionalActions } from '../utils/extensibility.utils';
 
 const copy = promisify(ncp);
 
@@ -63,37 +64,5 @@ JIRA_DOMAIN="xxxxx.atlassian.net"
     }
   }
 
-  // Check for additional actions in .sitecore-ai-cli folder
-  const actionsDir = path.join(rootDir, '.sitecore-build');
-  const commandsConfigPath = path.join(actionsDir, 'commands.json');
-
-  if (fs.existsSync(commandsConfigPath)) {
-    const commandsConfig = JSON.parse(
-      fs.readFileSync(commandsConfigPath, 'utf-8'),
-    );
-    const { commands } = commandsConfig;
-
-    for (const commandConfig of commands) {
-      const { file: commandFile, params } = commandConfig;
-      const commandPath = path.join(actionsDir, commandFile);
-      console.log(`Executing additional command: ${commandFile}`);
-      try {
-        const command = require(commandPath);
-        if (typeof command === 'function') {
-          let commandParams = {};
-          if (params && params.prompt) {
-            commandParams = await inquirer.prompt(params.prompt);
-          }
-          await command(commandParams);
-        } else {
-          console.warn(
-            `Command file ${commandFile} does not export a function.`,
-          );
-        }
-      } catch (error) {
-        console.error(`Failed to execute command ${commandFile}:`, error);
-        break; // Stop execution if any command fails
-      }
-    }
-  }
+  await executeAdditionalActions(rootDir, 'init');
 }
