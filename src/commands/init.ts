@@ -9,20 +9,13 @@ import { ncp } from 'ncp';
 const copy = promisify(ncp);
 
 export async function init() {
-  console.log("Initializing Sitecore CLI AI configuration");
-
-  if (process.env.LOCAL_TEST) {
-    console.log("Local test environment detected");
-    // Add any local test-specific initialization here
-    // Change script name from start:local to dev
-    console.log("Running npm run dev");
-  }
+  console.log('Initializing Sitecore CLI AI configuration');
 
   const rootDir = process.cwd();
   const files = fs.readdirSync(rootDir);
 
   const allowedFiles = ['.gitignore', 'README.md', 'sitecore-ai.config.json'];
-  
+
   const configFilePath = path.join(rootDir, 'sitecore-ai.config.json');
   const configContent = `
 # Sitecore CLI AI Configuration
@@ -40,11 +33,15 @@ JIRA_DOMAIN="xxxxx.atlassian.net"
     console.log('.sitecore-cli-config file created successfully.');
   }
 
-  if (files.length === 0 || files.every(file => allowedFiles.includes(file))) {
+  if (
+    files.length === 0 ||
+    files.every((file) => allowedFiles.includes(file))
+  ) {
     const { cloneRepo } = await inquirer.prompt({
       type: 'confirm',
       name: 'cloneRepo',
-      message: 'The folder is empty or contains only allowed files. Do you want to get started with the Foundation Head repo?',
+      message:
+        'The folder is empty or contains only allowed files. Do you want to get started with the Foundation Head repo?',
       default: true,
     });
 
@@ -71,7 +68,9 @@ JIRA_DOMAIN="xxxxx.atlassian.net"
   const commandsConfigPath = path.join(actionsDir, 'commands.json');
 
   if (fs.existsSync(commandsConfigPath)) {
-    const commandsConfig = JSON.parse(fs.readFileSync(commandsConfigPath, 'utf-8'));
+    const commandsConfig = JSON.parse(
+      fs.readFileSync(commandsConfigPath, 'utf-8'),
+    );
     const { commands } = commandsConfig;
 
     for (const commandConfig of commands) {
@@ -87,7 +86,9 @@ JIRA_DOMAIN="xxxxx.atlassian.net"
           }
           await command(commandParams);
         } else {
-          console.warn(`Command file ${commandFile} does not export a function.`);
+          console.warn(
+            `Command file ${commandFile} does not export a function.`,
+          );
         }
       } catch (error) {
         console.error(`Failed to execute command ${commandFile}:`, error);
